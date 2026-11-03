@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "project_id": "new_project",
+  "data_roots": {"local": "../data"},
+  "state_dir": "../.work/new_project",
+  "excel": {
+    "layout": {
+      "logical_table_cell": "A1",
+      "description_row": 2,
+      "type_row": 4,
+      "field_row": 5,
+      "constraint_row": 6,
+      "data_start_row": 7,
+      "marker_column": "A",
+      "start_marker": "Start",
+      "end_marker": "End",
+      "include_end": true,
+      "skip_sheet_prefixes": ["$"]
+    }
+  },
+  "tables": {},
+  "references": [],
+  "aliases": {},
+  "knowledge": {"vault": "../obsidian-vault", "notes": "knowledge-notes.json", "index": "schema-index.json"}
+}

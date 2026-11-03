@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "notes": [
+    {
+      "id": "guide:workflow",
+      "kind": "rule",
+      "title": "通用配表流程",
+      "group": "使用与扩展",
+      "aliases": ["流程", "预览", "确认", "回读"],
+      "content": "# 通用配表流程\n\n知识查询 → 确定项目和数据根 → 定向读取当前表 → 生成真实预览 → 人工确认每张表 → CAS 与备份 → 原子写入 → 回读。\n\n结构笔记与演示记录不代表真实项目现值，也不提供写入许可。业务配方和特殊引用必须显式登记；未验证的运行时行为保持未知。\n\n新 AI 先读仓库根目录 AGENTS.md，再读 docs/AI_GUIDE.md 和 docs/PROJECT_ONBOARDING.md。扩展代码前阅读 docs/EXTENDING.md。"
+    },
+    {
+      "id": "spec:catalog",
+      "kind": "table",
+      "title": "Catalog 示例表结构",
+      "group": "示例结构",
+      "aliases": ["Catalog", "示例目录表"],
+      "content": "# Catalog 示例表结构\n\n这是完全虚构的演示结构。Id 是 PRIMARY；Name 是文本；GroupId 显式引用 Groups.Id；Count 是整数。Rule 列用来演示现有公式的保留，不能直接覆盖公式单元格。\n\n六行表头、A1 与 Start/End 是本示例选择的格式 profile。接入其他格式时必须先检查实际表头并修改配置，不能把本示例当作所有 Excel 的通用结构。",
+      "sources": [{"root": "demo", "file": "Catalog.xlsx", "sheet": "配置", "table": "Catalog"}]
+    },
+    {
+      "id": "spec:groups",
+      "kind": "table",
+      "title": "Groups 示例基础表",
+      "group": "示例结构",
+      "aliases": ["Groups", "示例分组"],
+      "content": "# Groups 示例基础表\n\n这是完全虚构的演示结构。字段为 Id 和 Name，Id 是 PRIMARY。新增记录需要新的主键，并通过实际预览和逐表确认。\n\n基础表关系来自显式 FOREIGN 或项目配置，不按字段名字猜测。",
+      "sources": [{"root": "demo", "file": "Groups.xlsx", "sheet": "配置", "table": "Groups"}]
+    },
+    {
+      "id": "guide:maintain",
+      "kind": "rule",
+      "title": "怎样补充知识与工具能力",
+      "group": "使用与扩展",
+      "aliases": ["补充", "完善", "维护", "扩展"],
+      "content": "# 怎样补充知识与工具能力\n\n新增知识：给每条笔记稳定 id、明确 group、正文和证据；用 sources 登记真实 root/file/sheet/table；用 edges 显式连接已存在节点。可用 source 引用独立 Markdown 文件，路径相对知识输入 JSON。\n\n修改表头：先在对应项目的隔离副本验证 layout，再更新该项目的来源索引。来源指纹过期时先定向刷新，不能只重建笔记掩盖过期数据。\n\n新增业务行为：先写输入、引用与验收契约，再实现独立适配器并补隔离测试，最后接入 CLI、预览和回读；不要把业务表名写进通用核心。\n\n详细步骤见 docs/EXTENDING.md；新项目接入见 docs/PROJECT_ONBOARDING.md。"
+    }
+  ],
+  "edges": [
+    {"source": "spec:catalog", "target": "spec:groups", "field": "GroupId", "evidence": "explicit_header_and_project_reference"},
+    {"source": "guide:workflow", "target": "guide:maintain", "evidence": "curated_navigation"}
+  ]
+}

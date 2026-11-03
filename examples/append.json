@@ -1,0 +1,6 @@
+{
+  "file": "Groups.xlsx",
+  "sheet": "配置",
+  "operation": "append",
+  "rows": [{"Id": "group_c", "Name": "Group C"}]
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "kind": "generic_extraction",
+  "contains_business_project_data": false,
+  "contains_old_approvals_or_runtime_state": false,
+  "method": "提取通用算法，使用显式项目配置替代业务依赖；清理后的接口以新包测试为准。",
+  "components": [
+    {
+      "source_relative_file": "config_toolkit/core/obsidian_bundle.py",
+      "source_sha256": "06d67f6c6eb75a6d03378971d649abf2a61680f824f6a85d6cdd5b4b0f21975f",
+      "destination": "config_toolkit/core/bundle.py",
+      "reused_concept": "无损合编、章节定位与编辑保护"
+    },
+    {
+      "source_relative_file": "config_toolkit/core/obsidian_knowledge.py",
+      "source_sha256": "ca8dc1153c73ae729b1752ca61d8fe9c760abb38b0d824604934694d812d6afc",
+      "destination": "config_toolkit/core/knowledge.py",
+      "reused_concept": "独立节点检索、来源证据和图谱校验"
+    },
+    {
+      "source_relative_file": "config_toolkit/core/config_table_append.py",
+      "source_sha256": "5c2811b0be0bae024c9cc5c4570552c283baf6cf78ed2596597be3cf8fd0ed6c",
+      "destination": "config_toolkit/core/ooxml.py",
+      "reused_concept": "ZIP成员与元数据保真、定向部件提交"
+    },
+    {
+      "source_relative_file": "config_toolkit/core/config_table_patch.py",
+      "source_sha256": "b11c7e90e7c1fa412010cacce0d51a294a1d67eba65b11d8f7919191b0dd5fb2",
+      "destination": "config_toolkit/core/ooxml.py",
+      "reused_concept": "明确单元格的XML定向修改"
+    },
+    {
+      "source_relative_file": "config_toolkit/core/config_table_transaction.py",
+      "source_sha256": "057734f7806d8d6d5cb0e04c2fe2743be433fb3906a70f35982e09259228c5ae",
+      "destination": "config_toolkit/core/workflow.py",
+      "reused_concept": "来源CAS、备份、回读和安全恢复"
+    }
+  ],
+  "excluded_categories": [
+    "真实工作簿与表头快照",
+    "领域规则与活动配方",
+    "历史任务与确认凭据",
+    "机器安装设置和其他项目连接",
+    "旧知识笔记和归档"
+  ],
+  "scope": [
+    "read",
+    "schema-index",
+    "patch-preview",
+    "append-preview",
+    "human-review",
+    "CAS",
+    "backup",
+    "readback",
+    "recover",
+    "data-only-plan",
+    "knowledge-build-query-read-validate"
+  ]
+}

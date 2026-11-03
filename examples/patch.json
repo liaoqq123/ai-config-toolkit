@@ -1,0 +1,6 @@
+{
+  "file": "Catalog.xlsx",
+  "sheet": "配置",
+  "operation": "patch",
+  "rows": [{"id": "item_alpha", "changes": {"Name": {"before": "Alpha", "after": "Alpha revised"}}}]
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "example_batch",
+  "parameters": {
+    "old_name": {"type": "string", "required": true},
+    "new_name": {"type": "string", "required": true},
+    "group_id": {"type": "string", "required": true},
+    "group_name": {"type": "string", "required": true}
+  },
+  "steps": [
+    {
+      "name": "edit_catalog",
+      "request": {
+        "file": "Catalog.xlsx", "sheet": "配置", "operation": "patch",
+        "rows": [{"id": "item_alpha", "changes": {"Name": {"before": "{{old_name}}", "after": "{{new_name}}"}}}]
+      }
+    },
+    {
+      "name": "add_group",
+      "depends_on": ["edit_catalog"],
+      "request": {
+        "file": "Groups.xlsx", "sheet": "配置", "operation": "append",
+        "rows": [{"Id": "{{group_id}}", "Name": "{{group_name}}"}]
+      }
+    }
+  ]
+}

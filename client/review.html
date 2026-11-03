@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>配置逐表确认</title>
+<style>body{font:16px/1.65 system-ui,sans-serif;max-width:1080px;margin:42px auto;padding:0 24px;color:#162434;background:#f6f8fa}h1{font-size:28px}button,input,textarea,select{font:inherit;padding:9px 12px;border:1px solid #bac5d1;border-radius:6px}button{background:#1555ad;color:white;cursor:pointer}label{display:block;margin:14px 0}input,textarea{display:block;max-width:100%;width:480px}input[type=checkbox]{display:inline;width:auto}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:white;padding:22px;border:1px solid #d5dee8;border-radius:8px;max-height:520px;overflow:auto}.muted{color:#576574}#message{padding:12px 0;font-weight:600}</style>
+<h1>配置逐表确认</h1><p class="muted">选择一份预览，核对全部差异后确认。确认成功会返回批准 ID，写入由独立命令执行。</p>
+<select id="previews"><option>正在读取预览…</option></select> <button id="refresh">刷新</button>
+<pre id="detail">请选择预览。</pre>
+<form id="approval"><label>确认人<input id="actor" required maxlength="80" autocomplete="name"></label>
+<label>确认说明<textarea id="reason" required maxlength="1000"></textarea></label>
+<label><input id="confirmed" type="checkbox" required> 我已核对本表的全部差异，同意这份预览。</label>
+<button type="submit">确认本表</button></form><div id="message" role="status"></div>
+<script>
+const token='__REVIEW_TOKEN__';let current=null;
+const el=id=>document.getElementById(id);
+async function api(url,options){const r=await fetch(url,options),v=await r.json();if(!r.ok)throw Error(v.error||JSON.stringify(v));return v;}
+async function select(){el('confirmed').checked=false;el('message').textContent='';current=null;const id=el('previews').value;if(!id)return;current=await api('/api/preview?id='+encodeURIComponent(id));el('detail').textContent=JSON.stringify(current,null,2);}
+async function refresh(){try{const response=await api('/api/previews');const rows=Array.isArray(response)?response:(response.previews||[]);el('previews').replaceChildren();for(const row of rows){const option=document.createElement('option');option.value=row.preview_id||row.id;option.textContent=(row.file||(row.target||{}).file||'配置表')+' / '+(row.sheet||(row.target||{}).sheet||'')+' — '+option.value;el('previews').appendChild(option);}if(!rows.length){el('detail').textContent='还没有预览。请先运行 preview 命令。';}else await select();}catch(e){el('message').textContent=e.message;}}
+el('previews').onchange=()=>select().catch(e=>el('message').textContent=e.message);el('refresh').onclick=refresh;
+el('approval').onsubmit=async event=>{event.preventDefault();try{if(!current)throw Error('请先选择预览。');const result=await api('/api/approve',{method:'POST',headers:{'Content-Type':'application/json','X-Review-Token':token},body:JSON.stringify({preview_id:current.preview_id||current.id,actor:el('actor').value,reason:el('reason').value,confirmed:el('confirmed').checked})});el('message').textContent='本表已确认：'+JSON.stringify(result);el('confirmed').checked=false;}catch(e){el('message').textContent=e.message;}};
+refresh();
+</script></html>
